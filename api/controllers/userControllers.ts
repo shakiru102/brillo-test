@@ -103,7 +103,7 @@ export const updatePassword = async (req: Request, res: Response) => {
        try {
         const user = await User.findOne({ _id: req.params.id })
         if(!user) throw new Error('Can not get user')
-         const verifyPass = await verifyPassword(user.password, req.body.newPassword)
+         const verifyPass = await verifyPassword(user.password, req.body.password)
          if(!verifyPass) throw new Error('password is incorrect')
         const hashPass = hashPassword(req.body.newPassword)
         await User.updateOne({ _id: req.params.id }, { password: hashPass })
