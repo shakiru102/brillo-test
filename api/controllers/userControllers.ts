@@ -13,7 +13,6 @@ sendGrid.setApiKey(process.env.SENDGRID)
    try {
        const verify = await User.findOne({ email: req.body.email })
        if(verify) throw new Error('User is already registered')
-
        const hashPass = await hashPassword(req.body.password)
        const user = await User.create({...req.body, verified: false, password: hashPass})
        const token = signJwt(user.id)
