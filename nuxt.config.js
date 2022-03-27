@@ -1,5 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
+const env = () => NODE_ENV == 'production' ? '~/api/index.js' : '~/api/index'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -60,7 +62,7 @@ export default {
 
   // serverMiddleware
   serverMiddleware: [
-    { path: '/api', handler: './app/api/index.js' }
+    { path: '/api', handler: env }
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
