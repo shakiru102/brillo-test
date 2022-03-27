@@ -60,7 +60,7 @@ export default {
 
   // serverMiddleware
   serverMiddleware: [
-    { path: '/api', handler: '~/api/index.js' }
+    { path: '/api', handler: './app/api/index.js' }
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
