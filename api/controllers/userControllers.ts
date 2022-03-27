@@ -13,8 +13,7 @@ sendGrid.setApiKey(process.env.SENDGRID)
    try {
        const verify = await User.findOne({ email: req.body.email })
        if(verify) throw new Error('User is already registered')
-       const hashPass = await hashPassword(req.body.password)
-       const user = await User.create({...req.body, verified: false, password: hashPass})
+       const user = await User.create({...req.body, verified: false, password: await hashPassword(req.body.password)})
        const token = signJwt(user.id)
        await sendGrid.send({
            from: {
@@ -102,10 +101,9 @@ export const updatePassword = async (req: Request, res: Response) => {
        try {
         const user = await User.findOne({ _id: req.params.id })
         if(!user) throw new Error('Can not get user')
-         const verifyPass = await verifyPassword(user.password, req.body.password)
+         const verifyPass = verifyPassword(req.body.password, user.password)
          if(!verifyPass) throw new Error('password is incorrect')
-        const hashPass = hashPassword(req.body.newPassword)
-        await User.updateOne({ _id: req.params.id }, { password: hashPass })
+        await User.updateOne({ _id: req.params.id }, { password: await hashPassword(req.body.newPassword) })
         res.status(200).send('Password has been updated successfully')
        } catch (error: any) {
            res.status(400).send(error.message)
