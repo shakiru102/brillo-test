@@ -26,13 +26,17 @@ export default defineComponent({
         const route = useRoute()
         onMounted(async () => {
           await $axios.get(`/api/user/verifyaccount?id=${ route.value.params.id }`)
-          .then(() => {
+          .then((res) => {
               verify.value = true
               exists.value = true
+              console.log(res);
+              
           })
           .catch(err => {
               verify.value = false
               exists.value = true
+              console.log(err.response.data);
+              
           })
         })
         return { verify, exists }

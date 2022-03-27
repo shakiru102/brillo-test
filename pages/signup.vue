@@ -57,7 +57,6 @@ export default defineComponent({
                 loading.value = !loading.value
                 snackbar.value = !snackbar.value
                 message.value = res.data
-                router.push('/login')
             })
             .catch(err => {
                 loading.value = !loading.value
