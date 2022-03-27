@@ -1,11 +1,11 @@
 <template>
-  <v-container class="pt-10">
-      <v-row justify="center" align="center">
+  <v-container class="pt-10" >
+      <v-row justify="center" align="center" v-if="$store.state.user">
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="500px" color="transparent">
         <v-img :src="require('@/assets/Rectangle 5.jpg')" alt="cover-image"></v-img>
         <v-card-text class="d-flex justify-center">
-        <div class="text-center img-position" v-if="$store.state.user">
+        <div class="text-center img-position" >
           <v-avatar
           size="150px"
         >
