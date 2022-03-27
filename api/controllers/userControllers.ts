@@ -28,8 +28,8 @@ sendGrid.setApiKey(process.env.SENDGRID)
                 <div style="margin-bottem: 1em;">Dear sir/ma</div>
                 Thank you for signing up for our services, we hope you would get the best experience throughout you stay with us,
                 please verify your account using the link below <br />
-                <a href="${ process.env.BASEURI }/${ token }">
-                ${ process.env.BASEURI }/${ token }
+                <a href="${ process.env.BASEURI }/account-verification/${ token }">
+                ${ process.env.BASEURI }/account-verification/${ token }
                 </a>
                 <div style="margin-top: 3em;">Thank you. <br />
                 Brilloconnectz
