@@ -2,7 +2,7 @@
     <v-app-bar flat color="transparent" >
         <v-app-bar-title>BRILLOCONNECTZ</v-app-bar-title>
         <v-spacer></v-spacer>
-        <div class="hidden-sm-and-down">
+        <div class="hidden-sm-and-down" v-if="$store.state.user != null">
             <v-btn v-for="(item, index)  in navs" :key="index" small :to="item.to" text dark>
                 <v-icon left small>{{ item.icon }}</v-icon>
                 {{ item.name }}
