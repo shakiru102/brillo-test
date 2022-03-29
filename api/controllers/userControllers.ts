@@ -9,11 +9,12 @@ export const signup = async (req: Request, res: Response) => {
    // @ts-ignore
 sendGrid.setApiKey(process.env.SENDGRID)
 
-
    try {
        const verify = await User.findOne({ email: req.body.email })
        if(verify) throw new Error('User is already registered')
-       const user = await User.create({...req.body, verified: false, password: await hashPassword(req.body.password)})
+       const user = await User.create({...req.body, verified: false, password: await hashPassword(req.body.password) })
+       console.log(user);
+       
        const token = signJwt(user.id)
        await sendGrid.send({
            from: {
@@ -36,7 +37,7 @@ sendGrid.setApiKey(process.env.SENDGRID)
        } as any)
        res.status(200).send('Please verify your account, a mail has been sent to your registered email address ')
    } catch (error: any) {
-       console.log(error)
+       console.log(error.message)
        res.status(400).send(error.message)
    }
 }
@@ -47,7 +48,7 @@ export const login = async (req: Request, res: Response) => {
         if(!isEmail) {
         const isPhonenumber = await User.findOne({ phonenumber: req.body.username })
         if(!isPhonenumber) throw new Error('Users credentials is not correct')
-        const confirmPassword = verifyPassword(isPhonenumber.password, req.body.password)
+        const confirmPassword = verifyPassword(req.body.password, isPhonenumber.password)
         if(!confirmPassword) throw new Error('Invalid password')
         if(!isPhonenumber.verified) throw new Error('Account has not been verified')
          const token = signJwt(isPhonenumber.id)
@@ -55,7 +56,8 @@ export const login = async (req: Request, res: Response) => {
          res.status(200).send('User is authenticated')
          return
         }
-        const confirmPassword = verifyPassword(isEmail.password, req.body.password)
+        const confirmPassword = await verifyPassword(req.body.password, isEmail.password)
+        console.log(confirmPassword)
         if(!confirmPassword) throw new Error('Invalid password')
         if(!isEmail.verified) throw new Error('Account has not been verified')
          const token = signJwt(isEmail.id)
@@ -98,10 +100,12 @@ export const updateData = async (req: Request, res: Response) =>{
 }
 
 export const updatePassword = async (req: Request, res: Response) => {
+    console.log(req.params.id);
+    
        try {
         const user = await User.findOne({ _id: req.params.id })
         if(!user) throw new Error('Can not get user')
-         const verifyPass = verifyPassword(req.body.password, user.password)
+         const verifyPass = await verifyPassword(req.body.password, user.password)
          if(!verifyPass) throw new Error('password is incorrect')
         await User.updateOne({ _id: req.params.id }, { password: await hashPassword(req.body.newPassword) })
         res.status(200).send('Password has been updated successfully')

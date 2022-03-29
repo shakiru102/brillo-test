@@ -52,7 +52,12 @@ export default defineComponent({
 
         const handleSignup = async () => {
             loading.value = !loading.value
-            await $axios.post('/user/signup', userDetails.value)
+            await $axios.post('/user/signup', {
+                email: userDetails.value.email,
+            phonenumber: userDetails.value.phonenumber, 
+            password: userDetails.value.password,
+            interest: userDetails.value.interest
+            })
             .then( res => {
                 loading.value = !loading.value
                 snackbar.value = !snackbar.value
