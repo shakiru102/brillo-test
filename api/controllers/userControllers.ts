@@ -49,6 +49,7 @@ export const login = async (req: Request, res: Response) => {
         const isPhonenumber = await User.findOne({ phonenumber: req.body.username })
         if(!isPhonenumber) throw new Error('Users credentials is not correct')
         const confirmPassword = await verifyPassword(req.body.password, isPhonenumber.password)
+        console.log(confirmPassword, req.body);
         if(!confirmPassword) throw new Error('Invalid password')
         if(!isPhonenumber.verified) throw new Error('Account has not been verified')
          const token = signJwt(isPhonenumber.id)
