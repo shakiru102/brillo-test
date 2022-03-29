@@ -75,12 +75,18 @@ export default defineComponent({
                 email: profile.value?.email,
                 phonenumber: profile.value?.phonenumber,
                 interest: profile.value?.interest,
-                username: profile.value?.username            
+                username: profile.value?.username
              } as userDetails)
             snackbar.value = !snackbar.value
             message.value = res.data
             updateProfile.value = !updateProfile.value
-            store.commit('SetUserName', profile.value.username)
+            store.commit('SetUser', {
+                email: profile.value.email,
+                phonenumber: profile.value.phonenumber,
+                interest: profile.value.interest,
+                username:  profile.value.username,
+                _id: profile.value._id
+            } as userDetails)
          } catch (error: any) {
              snackbar.value = !snackbar.value
             message.value = error.response.data

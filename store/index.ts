@@ -8,7 +8,4 @@ export const mutations =  {
    SetUser(state: any , doc: any){
       state.user = doc
    },
-   SetUserName(state: any, data: string){
-       state.user = {...state.user, username: data}
-   }
 }
